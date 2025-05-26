@@ -1,0 +1,57 @@
+{% extends 'core.html' %}
+{% block core_body%}
+<div class="index">
+    <form class="input-group" method="get" action="/web/weather/main">
+        <input class="form-control rounded" placeholder="Search city" type="text" id="city" name="city" required>
+        <button class="btn btn-outline-primary" type="submit">Поиск</button>
+    </form>
+
+    <h1>Hello from Weather page!</h1>
+
+    <div>
+        Ваши прошлые запросы:
+        {% if history %}
+        {% for item in history %}
+            <a href="/web/weather/main?city={{ item.city }}">{{ item.city }}</a>
+        {% endfor%}
+        {% endif %}
+    </div>
+
+    {% if forecast %}
+    <p>
+        {{ forecast.city }} - Координаты: {{ forecast.latitude }}, {{ forecast.longitude }}
+    </p>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Дата и время</th>
+                <th scope="col">Температура</th>
+                <th scope="col">Погода</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(forecast.count) %}
+            <tr>
+                <td>{{ forecast.time[i] }}</td>
+                <td>{{ forecast.temperature[i] }}</td>
+                <td>{{ forecast.weather_str[i] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if is_non_existent_city %}
+        <div>
+            Это не существующий город
+        </div>
+    {% endif %}
+</div>
+
+<style>
+    .input-group {
+        margin-top: 100px;
+    }
+</style>
+{% endblock core_body%}
