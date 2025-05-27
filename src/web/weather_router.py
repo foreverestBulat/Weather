@@ -16,6 +16,7 @@ async def main_page(
         city: str=None,
         weather_service: WeatherService = Depends()
     ):
+    """Главная страница"""
     history = []
     cookie_history = request.cookies.get("weather_history")
     if cookie_history:

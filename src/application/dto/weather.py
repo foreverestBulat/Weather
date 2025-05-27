@@ -11,6 +11,5 @@ class WeatherForecastDTO(BaseModel):
     longitude: float
     time: list[datetime]
     temperature: list[float]
-    # weather_code: list[int]
     weather_str:  list[str]
     count: int

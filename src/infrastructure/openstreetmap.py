@@ -30,10 +30,9 @@ class OpenStreetMapService:
             if use_cache:
                 cached_data = self.redis.get(cache_key)
                 if cached_data:
-                    print('---------------- FROM REDIS ----------------')
                     return json.loads(cached_data)
         except:
-            print('---------------- NO CONNECTION REDIS ----------------')
+            pass
         
         entity = await self.city_repository.get_by_name_async(name=city)
         if entity:
@@ -49,9 +48,8 @@ class OpenStreetMapService:
                     ex=cache_ttl
                 )
             except:
-                print('---------------- NO CONNECTION REDIS ----------------')
+                pass
             
-            print('---------------- FROM POSTGRESQL ----------------')
             return coordinates
         
         params = {
@@ -76,7 +74,7 @@ class OpenStreetMapService:
                         ex=cache_ttl
                     )
                 except:
-                    print('---------------- NO CONNECTION REDIS ----------------')
+                    pass
                 
                 await self.city_repository.unit_of_work.create_async(
                     City(
@@ -85,10 +83,9 @@ class OpenStreetMapService:
                         longitude=coordinates['longitude'],
                         count=1
                     )
-                )
-                
-                print('---------------- FROM OPENSTREETMAP ----------------')
+                )                
                 return coordinates
+            
             return None
         
     def clear_cache(self, city: str = None):

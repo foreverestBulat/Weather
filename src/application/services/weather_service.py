@@ -19,8 +19,8 @@ class WeatherService:
     async def get_forecast_async(self, city: str):# -> Optional[WeatherForecastDTO]:
         """Получение прогноза по городу"""
     
-        raw_data = await self.weather_service.get_weather_forecast_by_city_async(city=city)
-        if not raw_data:
+        raw_data, code = await self.weather_service.get_weather_forecast_by_city_async(city=city)
+        if not raw_data or code == 404:
             return None
         
         await self.city_repository.update_count_add_one_async(city=city)

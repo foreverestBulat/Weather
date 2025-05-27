@@ -20,7 +20,7 @@ class OpenMeteoService:
             latitude: float, 
             longitude: float, 
             days: int=3
-        ):# -> Optional[Dict]:
+        ) -> Optional[Dict]:
         """Получение прогноза погоды по координатам"""
         
         params = {
@@ -33,7 +33,7 @@ class OpenMeteoService:
         
         async with httpx.AsyncClient() as client:
             response = await client.get(self.api_url, params=params)
-            return response.json()
+            return response.json(), response.status_code
         
     async def get_weather_forecast_by_city_async(
             self, 
@@ -46,8 +46,9 @@ class OpenMeteoService:
         if not coordinates:
             return None
         
-        result = await self.get_weather_forecast_by_coordinates_async(
+        result, code = await self.get_weather_forecast_by_coordinates_async(
             **coordinates, 
             days=days
         )
-        return result
+        
+        return result, code

@@ -7,3 +7,6 @@ redis==6.1.0
 alembic==1.16.1
 psycopg2-binary==2.9.10
 asyncpg==0.30.0
+pytest==8.3.5
+pytest-asyncio==1.0.0
+pytest-mock==3.14.1

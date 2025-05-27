@@ -2,7 +2,6 @@ from math import ceil
 from typing import Generic, List, TypeVar
 
 from pydantic import BaseModel
-# from pydantic.generics import GenericModel
 
 
 class PaginatedResult(BaseModel):

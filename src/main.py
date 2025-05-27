@@ -10,6 +10,7 @@ app = FastAPI()
 app.include_router(weather_router, prefix='/web')
 app.include_router(city_router, prefix='/api')
 
-# if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run("main:app", host="127.0.0.1", port=8000)
+from fastapi.responses import RedirectResponse
+@app.exception_handler(404)
+async def custom_404_handler(_, __):
+    return RedirectResponse("/web/weather/main")
