@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 
 from infrastructure.openmeteo import OpenMeteoService
 from web.weather_router import weather_router
-from api.test_router import test_router
+from api.city_router import city_router
 
 from persistence.tables import *
 
@@ -13,4 +13,4 @@ app = FastAPI()
 
 app.include_router(weather_router, prefix='/web')
 
-app.include_router(test_router, prefix='/api')
+app.include_router(city_router, prefix='/api')

@@ -1,10 +1,53 @@
 {% extends 'core.html' %}
 {% block core_body%}
+<script>
+function showSuggestions(query) {
+    const suggestionsDiv = document.getElementById('suggestions');
+    suggestionsDiv.innerHTML = '';
+    if (query.length == 0) return;
+    
+    fetch(`/api/city/suggestions?search=${query}`)
+        .then(response => response.json())
+        .then(cities => {
+            if (cities.length > 0) {
+                const ul = document.createElement('ul');
+                ul.className = 'dropdown-menu';
+                ul.style.display = 'block';
+                ul.style.width = '100%';
+                
+                cities.forEach(city => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.className = 'dropdown-item';
+                    a.href = `/web/weather/main?city=${encodeURIComponent(city)}`;
+                    a.textContent = city;
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                });
+                
+                suggestionsDiv.appendChild(ul);
+            }
+        });
+}
+</script>
+
 <div class="index">
     <form class="input-group" method="get" action="/web/weather/main">
-        <input class="form-control rounded" placeholder="Search city" type="text" id="city" name="city" required>
+        <input 
+            class="form-control rounded" 
+            placeholder="Search city" 
+            type="text" 
+            id="city" 
+            name="city" 
+            required
+            oninput="showSuggestions(this.value)"
+        >
         <button class="btn btn-outline-primary" type="submit">Поиск</button>
     </form>
+    <div class="dropdown" id="suggestions">
+
+    </div>
+
 
     <h1>Hello from Weather page!</h1>
 
@@ -12,14 +55,14 @@
         Ваши прошлые запросы:
         {% if history %}
         {% for item in history %}
-            <a href="/web/weather/main?city={{ item.city }}">{{ item.city }}</a>
+            <a href="/web/weather/main?city={{ item.city }}"><b>{{ item.city }}</b></a>
         {% endfor%}
         {% endif %}
     </div>
 
     {% if forecast %}
     <p>
-        {{ forecast.city }} - Координаты: {{ forecast.latitude }}, {{ forecast.longitude }}
+        <b>{{ forecast.city }}</b> - Координаты: {{ forecast.latitude }}, {{ forecast.longitude }}
     </p>
     
     <table class="table">

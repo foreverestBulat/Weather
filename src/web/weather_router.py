@@ -22,6 +22,7 @@ async def main_page(
         history = json.loads(cookie_history)
     
     is_non_existent_city = False
+    forecast = None
     if city:
         # Получаем прогноз
         forecast = await weather_service.get_forecast_async(city=city)
