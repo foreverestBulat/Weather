@@ -39,8 +39,6 @@ async def main_page(
         else:
             is_non_existent_city = True
     
-    
-    print(is_non_existent_city, 'is_non_existent_city')
     response = templates.TemplateResponse(
         'weather.html',
         {

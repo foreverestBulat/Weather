@@ -6,6 +6,8 @@ from infrastructure.openmeteo import OpenMeteoService
 from web.weather_router import weather_router
 from api.test_router import test_router
 
+from persistence.tables import *
+
 app = FastAPI()
 # app.mount('/static', StaticFiles(directory='static'), name='static')
 
