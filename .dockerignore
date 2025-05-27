@@ -4,9 +4,8 @@
 env/
 venv/
 ENV/
-env.bak/
+# env.bak/
 venv.bak/
-# .env*
 
 __pycache__
 __pycache__/
